@@ -64,8 +64,6 @@ CREATE TABLE [mant].[Productos](
     [Id]                INT IDENTITY(1, 1) NOT NULL,
     [Nombre]            VARCHAR(250) NOT NULL,
     [Descripcion]       VARCHAR(500) NOT NULL,
-    [Sku]               VARCHAR(8),
-    [Stock]             INT NOT NULL,
     [MarcaId]           INT NOT NULL,
 
     [Activo]            BIT NULL,
@@ -75,7 +73,38 @@ CREATE TABLE [mant].[Productos](
     CONSTRAINT [PK_Productos] PRIMARY KEY (Id),
     CONSTRAINT [FK_Productos_Marcas_MarcaId] FOREIGN KEY (MarcaId) REFERENCES [mant].[Marcas],
     CONSTRAINT [UK_Productos_Nombre] UNIQUE (Nombre),
-    CONSTRAINT [CHK_Productos_Sku] CHECK (LEN(Sku) = 8 AND ISNUMERIC(Sku) = 1) 
+)
+
+CREATE TABLE [mant].[Variantes](
+    [Id]                INT IDENTITY(1, 1) NOT NULL,
+    [ProductoId]        INT NOT NULL,
+    [Sku]               VARCHAR(8) NOT NULL,
+    [Stock]             INT NOT NULL,
+    [Precio]            FLOAT NOT NULL,
+    [ColorId]           INT NULL,
+
+    [Activo]            BIT NULL,
+    [Creado]            DATETIME NULL,
+    [Modificado]        DATETIME NULL,
+
+    CONSTRAINT [PK_Variantes] PRIMARY KEY (Id), 
+    CONSTRAINT [UK_Variantes_ProductoId_ColorId] UNIQUE (ProductoId, ColorId),
+    CONSTRAINT [UK_Variantes_Sku] UNIQUE (Sku),
+    CONSTRAINT [FK_Variantes_Productos_ProductoId] FOREIGN KEY (ProductoId) REFERENCES [mant].[Productos],
+    CONSTRAINT [CHK_Variantes_Sku] CHECK (LEN(Sku) = 8 AND ISNUMERIC(Sku) = 1)
+)
+
+CREATE TABLE [mant].[Imagenes](
+    [Id]                INT IDENTITY(1, 1) NOT NULL,
+    [Path]              VARCHAR(MAX) NOT NULL,
+    [VarianteId]        INT NOT NULL,
+
+    [Activo]            BIT NULL,
+    [Creado]            DATETIME NULL,
+    [Modificado]        DATETIME NULL,
+
+    CONSTRAINT [PK_Imagenes] PRIMARY KEY (Id), 
+    CONSTRAINT [FK_Imagenes_Variantes_VarianteId] FOREIGN KEY (VarianteId) REFERENCES [mant].[Variantes]   
 )
 
 CREATE TABLE [mant].[ProductosCategorias](
@@ -95,24 +124,4 @@ CREATE TABLE [mant].[ProductosCaracteristicas](
     CONSTRAINT [PK_ProductosCaracteristicas] PRIMARY KEY (ProductoId, CaracteristicaId),
     CONSTRAINT [FK_ProductosCaracteristicas_Productos_ProductoId] FOREIGN KEY (ProductoId) REFERENCES [mant].[Productos],
     CONSTRAINT [FK_ProductosCaracteristicas_Caracteristica_CaracteristicaId] FOREIGN KEY (CaracteristicaId) REFERENCES [mant].[Caracteristicas],
-)
-
-CREATE TABLE [mant].[ProductosColoresImagenes](
-    [ProductoId]        INT NOT NULL,
-    [ColorId]           INT NOT NULL,
-    [Path]              VARCHAR(MAX) NULL,
-
-    CONSTRAINT [PK_ProductosColoresImagenes] PRIMARY KEY (ProductoId, ColorId),
-    CONSTRAINT [FK_ProductosColoresImagenes_Productos_ProductoId] FOREIGN KEY (ProductoId) REFERENCES [mant].[Productos],
-    CONSTRAINT [FK_ProductosColoresImagenes_Colores_ColorId] FOREIGN KEY (ColorId) REFERENCES [mant].[Colores],
-)
-
-CREATE TABLE [mant].[ProductosColoresPrecios](
-    [ProductoId]        INT NOT NULL,
-    [ColorId]           INT NOT NULL,
-    [Precio]            VARCHAR(MAX) NULL,
-
-    CONSTRAINT [PK_ProductosColoresPrecios] PRIMARY KEY (ProductoId, ColorId),
-    CONSTRAINT [FK_ProductosColoresPrecios_Productos_ProductoId] FOREIGN KEY (ProductoId) REFERENCES [mant].[Productos],
-    CONSTRAINT [FK_ProductosColoresPrecios_Colores_ColorId] FOREIGN KEY (ColorId) REFERENCES [mant].[Colores],
 )

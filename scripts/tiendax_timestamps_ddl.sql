@@ -199,3 +199,77 @@ BEGIN
     EXEC [mant].[Usp_SetTimestamps] @TableName, 'Modificado', @RowId
 END
 GO
+
+--Variantes
+CREATE TRIGGER [mant].[T_VariantesCreadoTimestamp]
+ON [mant].[Variantes]
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @RowId INT
+    DECLARE @TableName VARCHAR(20)
+
+    SELECT @RowId = i.Id FROM inserted i
+    SELECT @TableName = OBJECT_NAME(parent_object_id) 
+             FROM sys.objects 
+             WHERE sys.objects.name = OBJECT_NAME(@@PROCID)
+
+    EXEC [mant].[Usp_SetTimestamps] @TableName, 'Creado', @RowId
+END
+GO
+
+CREATE TRIGGER [mant].[T_VariantesModificadoTimestamp]
+ON [mant].[Variantes]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @RowId INT
+    DECLARE @TableName VARCHAR(20)
+
+    SELECT @RowId = i.Id FROM inserted i
+    SELECT @TableName = OBJECT_NAME(parent_object_id) 
+             FROM sys.objects 
+             WHERE sys.objects.name = OBJECT_NAME(@@PROCID)
+
+    EXEC [mant].[Usp_SetTimestamps] @TableName, 'Modificado', @RowId
+END
+GO
+
+--Imagenes
+CREATE TRIGGER [mant].[T_ImagenesCreadoTimestamp]
+ON [mant].[Imagenes]
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @RowId INT
+    DECLARE @TableName VARCHAR(20)
+
+    SELECT @RowId = i.Id FROM inserted i
+    SELECT @TableName = OBJECT_NAME(parent_object_id) 
+             FROM sys.objects 
+             WHERE sys.objects.name = OBJECT_NAME(@@PROCID)
+
+    EXEC [mant].[Usp_SetTimestamps] @TableName, 'Creado', @RowId
+END
+GO
+
+CREATE TRIGGER [mant].[T_ImagenesModificadoTimestamp]
+ON [mant].[Imagenes]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @RowId INT
+    DECLARE @TableName VARCHAR(20)
+
+    SELECT @RowId = i.Id FROM inserted i
+    SELECT @TableName = OBJECT_NAME(parent_object_id) 
+             FROM sys.objects 
+             WHERE sys.objects.name = OBJECT_NAME(@@PROCID)
+
+    EXEC [mant].[Usp_SetTimestamps] @TableName, 'Modificado', @RowId
+END
+GO
