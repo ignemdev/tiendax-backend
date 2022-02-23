@@ -123,5 +123,5 @@ CREATE TABLE [mant].[ProductosCaracteristicas](
 
     CONSTRAINT [PK_ProductosCaracteristicas] PRIMARY KEY (ProductoId, CaracteristicaId),
     CONSTRAINT [FK_ProductosCaracteristicas_Productos_ProductoId] FOREIGN KEY (ProductoId) REFERENCES [mant].[Productos],
-    CONSTRAINT [FK_ProductosCaracteristicas_Caracteristica_CaracteristicaId] FOREIGN KEY (CaracteristicaId) REFERENCES [mant].[Caracteristicas],
+    CONSTRAINT [FK_ProductosCaracteristicas_Caracteristicas_CaracteristicaId] FOREIGN KEY (CaracteristicaId) REFERENCES [mant].[Caracteristicas],
 )
