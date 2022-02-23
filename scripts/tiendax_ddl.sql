@@ -63,9 +63,9 @@ GO
 CREATE TABLE [mant].[Productos](
     [Id]                INT IDENTITY(1, 1) NOT NULL,
     [Nombre]            VARCHAR(250) NOT NULL,
+    [Descripcion]       VARCHAR(500) NOT NULL,
     [Sku]               VARCHAR(8),
     [Stock]             INT NOT NULL,
-    [Descripcion]       VARCHAR(500) NOT NULL,
     [MarcaId]           INT NOT NULL,
 
     [Activo]            BIT NULL,
