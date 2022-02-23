@@ -73,7 +73,6 @@ CREATE TABLE [mant].[Productos](
     CONSTRAINT [PK_Productos] PRIMARY KEY (Id),
     CONSTRAINT [FK_Productos_Marcas_MarcaId] FOREIGN KEY (MarcaId) REFERENCES [mant].[Marcas],
     CONSTRAINT [UK_Productos_Nombre] UNIQUE (Nombre),
-
 )
 
 CREATE TABLE [mant].[Variantes](
@@ -89,8 +88,23 @@ CREATE TABLE [mant].[Variantes](
     [Modificado]        DATETIME NULL,
 
     CONSTRAINT [PK_Variantes] PRIMARY KEY (Id), 
+    CONSTRAINT [UK_Variantes_ProductoId_ColorId] UNIQUE (ProductoId, ColorId),
+    CONSTRAINT [UK_Variantes_Sku] UNIQUE (Sku),
     CONSTRAINT [FK_Variantes_Productos_ProductoId] FOREIGN KEY (ProductoId) REFERENCES [mant].[Productos],
     CONSTRAINT [CHK_Variantes_Sku] CHECK (LEN(Sku) = 8 AND ISNUMERIC(Sku) = 1)
+)
+
+CREATE TABLE [mant].[Imagenes](
+    [Id]                INT IDENTITY(1, 1) NOT NULL,
+    [Path]              VARCHAR(MAX) NOT NULL,
+    [VarianteId]        INT NOT NULL,
+
+    [Activo]            BIT NULL,
+    [Creado]            DATETIME NULL,
+    [Modificado]        DATETIME NULL,
+
+    CONSTRAINT [PK_Imagenes] PRIMARY KEY (Id), 
+    CONSTRAINT [FK_Imagenes_Variantes_VarianteId] FOREIGN KEY (VarianteId) REFERENCES [mant].[Variantes]   
 )
 
 CREATE TABLE [mant].[ProductosCategorias](
