@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace Tiendax.Core.Entities
 {
-    public partial class Categorias
+    public class Marca
     {
-        public Categorias()
+        public Marca()
         {
-            Producto = new HashSet<Productos>();
+            Productos = new List<Producto>();
         }
 
         public int Id { get; set; }
-        public string Descripcion { get; set; } = null!;
+        public string Nombre { get; set; } = null!;
         public bool? Activo { get; set; }
         public DateTime? Creado { get; set; }
         public DateTime? Modificado { get; set; }
 
-        public virtual ICollection<Productos> Producto { get; set; }
+        public IEnumerable<Producto> Productos { get; set; }
     }
 }

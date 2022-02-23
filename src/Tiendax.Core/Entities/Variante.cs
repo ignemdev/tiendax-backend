@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Tiendax.Core.Entities
 {
-    public partial class Variantes
+    public class Variante
     {
-        public Variantes()
+        public Variante()
         {
-            Imagenes = new HashSet<Imagenes>();
+            Imagenes = new List<Imagen>();
         }
 
         public int Id { get; set; }
@@ -20,7 +20,7 @@ namespace Tiendax.Core.Entities
         public DateTime? Creado { get; set; }
         public DateTime? Modificado { get; set; }
 
-        public virtual Productos Producto { get; set; } = null!;
-        public virtual ICollection<Imagenes> Imagenes { get; set; }
+        public Producto Producto { get; set; } = null!;
+        public IEnumerable<Imagen> Imagenes { get; set; }
     }
 }

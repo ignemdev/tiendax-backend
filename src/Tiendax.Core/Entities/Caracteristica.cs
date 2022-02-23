@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Tiendax.Core.Entities
 {
-    public partial class Caracteristicas
+    public class Caracteristica
     {
-        public Caracteristicas()
+        public Caracteristica()
         {
-            ProductosCaracteristicas = new HashSet<ProductosCaracteristicas>();
+            ProductosCaracteristicas = new List<ProductoCaracteristica>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace Tiendax.Core.Entities
         public DateTime? Creado { get; set; }
         public DateTime? Modificado { get; set; }
 
-        public virtual ICollection<ProductosCaracteristicas> ProductosCaracteristicas { get; set; }
+        public IEnumerable<ProductoCaracteristica> ProductosCaracteristicas { get; set; }
     }
 }

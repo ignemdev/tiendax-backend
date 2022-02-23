@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Tiendax.Core.Entities
 {
-    public partial class Colores
+    public class Color
     {
         public int Id { get; set; }
         public string Descripcion { get; set; } = null!;
