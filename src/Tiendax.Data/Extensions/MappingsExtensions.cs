@@ -10,20 +10,19 @@ namespace System;
 
 public static class MappingsExtensions
 {
-    public static ModelBuilder AddCaracteristicasMapping(this ModelBuilder modelBuilder)
+    public static ModelBuilder AddCategoriasMapping(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Caracteristica>(entity =>
+        modelBuilder.Entity<Categoria>(entity =>
         {
-            entity.ToTable("Caracteristicas", "mant");
+            entity.ToTable("Categorias", "mant");
 
-            entity.HasIndex(e => e.Descripcion, "UK_Caracteristicas_Descripcion")
-                .IsUnique();
+            entity.HasIndex(e => e.Descripcion).IsUnique();
 
             entity.Property(e => e.Creado).HasColumnType("datetime");
 
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(200)
-                .IsUnicode(false);
+                .HasMaxLength(100)
+                .IsRequired();
 
             entity.Property(e => e.Modificado).HasColumnType("datetime");
         });
@@ -31,20 +30,19 @@ public static class MappingsExtensions
         return modelBuilder;
     }
 
-    public static ModelBuilder AddCategoriasMapping(this ModelBuilder modelBuilder)
+    public static ModelBuilder AddCaracteristicasMapping(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Categoria>(entity =>
+        modelBuilder.Entity<Caracteristica>(entity =>
         {
-            entity.ToTable("Categorias", "mant");
+            entity.ToTable("Caracteristicas", "mant");
 
-            entity.HasIndex(e => e.Descripcion, "UK_Categorias_Descripcion")
-                .IsUnique();
+            entity.HasIndex(e => e.Descripcion).IsUnique();
 
             entity.Property(e => e.Creado).HasColumnType("datetime");
 
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .HasMaxLength(200)
+                .IsRequired();
 
             entity.Property(e => e.Modificado).HasColumnType("datetime");
         });
@@ -58,18 +56,17 @@ public static class MappingsExtensions
         {
             entity.ToTable("Colores", "mant");
 
-            entity.HasIndex(e => e.Hex, "UK_Colores_Hex")
-                .IsUnique();
+            entity.HasIndex(e => e.Hex).IsUnique();
 
             entity.Property(e => e.Creado).HasColumnType("datetime");
 
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(200)
-                .IsUnicode(false);
+                .IsRequired();
 
             entity.Property(e => e.Hex)
                 .HasMaxLength(6)
-                .IsUnicode(false);
+                .IsRequired();
 
             entity.Property(e => e.Modificado).HasColumnType("datetime");
         });
@@ -87,12 +84,12 @@ public static class MappingsExtensions
 
             entity.Property(e => e.Modificado).HasColumnType("datetime");
 
-            entity.Property(e => e.Path).IsUnicode(false);
+            entity.Property(e => e.Path).IsRequired();
 
             entity.HasOne(d => d.Variante)
                 .WithMany(p => p.Imagenes)
                 .HasForeignKey(d => d.VarianteId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.ClientCascade);
         });
 
         return modelBuilder;
@@ -104,7 +101,7 @@ public static class MappingsExtensions
         {
             entity.ToTable("Marcas", "mant");
 
-            entity.HasIndex(e => e.Nombre, "UK_Marcas_Nombre")
+            entity.HasIndex(e => e.Nombre)
                 .IsUnique();
 
             entity.Property(e => e.Creado).HasColumnType("datetime");
@@ -113,7 +110,7 @@ public static class MappingsExtensions
 
             entity.Property(e => e.Nombre)
                 .HasMaxLength(200)
-                .IsUnicode(false);
+                .IsRequired();
         });
 
         return modelBuilder;
@@ -125,25 +122,25 @@ public static class MappingsExtensions
         {
             entity.ToTable("Productos", "mant");
 
-            entity.HasIndex(e => e.Nombre, "UK_Productos_Nombre")
+            entity.HasIndex(e => e.Nombre)
                 .IsUnique();
 
             entity.Property(e => e.Creado).HasColumnType("datetime");
 
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(500)
-                .IsUnicode(false);
+                .IsRequired();
 
             entity.Property(e => e.Modificado).HasColumnType("datetime");
 
             entity.Property(e => e.Nombre)
                 .HasMaxLength(250)
-                .IsUnicode(false);
+                .IsRequired();
 
             entity.HasOne(d => d.Marca)
                 .WithMany(p => p.Productos)
                 .HasForeignKey(d => d.MarcaId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasMany(d => d.Categorias)
                 .WithMany(p => p.Productos)
@@ -168,10 +165,10 @@ public static class MappingsExtensions
         {
             entity.ToTable("Variantes", "mant");
 
-            entity.HasIndex(e => new { e.ProductoId, e.ColorId }, "UK_Variantes_ProductoId_ColorId")
+            entity.HasIndex(e => new { e.ProductoId, e.ColorId })
                 .IsUnique();
 
-            entity.HasIndex(e => e.Sku, "UK_Variantes_Sku")
+            entity.HasIndex(e => e.Sku)
                 .IsUnique();
 
             entity.Property(e => e.Creado).HasColumnType("datetime");
@@ -180,12 +177,12 @@ public static class MappingsExtensions
 
             entity.Property(e => e.Sku)
                 .HasMaxLength(8)
-                .IsUnicode(false);
+                .IsRequired();
 
             entity.HasOne(d => d.Producto)
                 .WithMany(p => p.Variantes)
                 .HasForeignKey(d => d.ProductoId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         return modelBuilder;
@@ -201,7 +198,7 @@ public static class MappingsExtensions
 
             entity.Property(e => e.Valor)
                 .HasMaxLength(500)
-                .IsUnicode(false);
+                .IsRequired();
 
             entity.HasOne(d => d.Caracteristica)
                 .WithMany(p => p.ProductosCaracteristicas)
@@ -212,7 +209,8 @@ public static class MappingsExtensions
             entity.HasOne(d => d.Producto)
                 .WithMany(p => p.ProductosCaracteristicas)
                 .HasForeignKey(d => d.ProductoId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProductosCaracteristicas_Productos_ProductoId");
         });
 
         return modelBuilder;
