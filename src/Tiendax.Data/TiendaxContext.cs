@@ -20,11 +20,11 @@ namespace Tiendax.Data
         public virtual DbSet<Caracteristicas> Caracteristicas { get; set; } = null!;
         public virtual DbSet<Categorias> Categorias { get; set; } = null!;
         public virtual DbSet<Colores> Colores { get; set; } = null!;
+        public virtual DbSet<Imagenes> Imagenes { get; set; } = null!;
         public virtual DbSet<Marcas> Marcas { get; set; } = null!;
         public virtual DbSet<Productos> Productos { get; set; } = null!;
         public virtual DbSet<ProductosCaracteristicas> ProductosCaracteristicas { get; set; } = null!;
-        public virtual DbSet<ProductosColoresImagenes> ProductosColoresImagenes { get; set; } = null!;
-        public virtual DbSet<ProductosColoresPrecios> ProductosColoresPrecios { get; set; } = null!;
+        public virtual DbSet<Variantes> Variantes { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -86,6 +86,22 @@ namespace Tiendax.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.Modificado).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Imagenes>(entity =>
+            {
+                entity.ToTable("Imagenes", "mant");
+
+                entity.Property(e => e.Creado).HasColumnType("datetime");
+
+                entity.Property(e => e.Modificado).HasColumnType("datetime");
+
+                entity.Property(e => e.Path).IsUnicode(false);
+
+                entity.HasOne(d => d.Variante)
+                    .WithMany(p => p.Imagenes)
+                    .HasForeignKey(d => d.VarianteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Marcas>(entity =>
@@ -168,40 +184,26 @@ namespace Tiendax.Data
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
-            modelBuilder.Entity<ProductosColoresImagenes>(entity =>
+            modelBuilder.Entity<Variantes>(entity =>
             {
-                entity.HasKey(e => new { e.ProductoId, e.ColorId });
+                entity.ToTable("Variantes", "mant");
 
-                entity.ToTable("ProductosColoresImagenes", "mant");
+                entity.HasIndex(e => new { e.ProductoId, e.ColorId }, "UK_Variantes_ProductoId_ColorId")
+                    .IsUnique();
 
-                entity.Property(e => e.Path).IsUnicode(false);
+                entity.HasIndex(e => e.Sku, "UK_Variantes_Sku")
+                    .IsUnique();
 
-                entity.HasOne(d => d.Color)
-                    .WithMany(p => p.ProductosColoresImagenes)
-                    .HasForeignKey(d => d.ColorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.Property(e => e.Creado).HasColumnType("datetime");
+
+                entity.Property(e => e.Modificado).HasColumnType("datetime");
+
+                entity.Property(e => e.Sku)
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Producto)
-                    .WithMany(p => p.ProductosColoresImagenes)
-                    .HasForeignKey(d => d.ProductoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
-
-            modelBuilder.Entity<ProductosColoresPrecios>(entity =>
-            {
-                entity.HasKey(e => new { e.ProductoId, e.ColorId });
-
-                entity.ToTable("ProductosColoresPrecios", "mant");
-
-                entity.Property(e => e.Precio).IsUnicode(false);
-
-                entity.HasOne(d => d.Color)
-                    .WithMany(p => p.ProductosColoresPrecios)
-                    .HasForeignKey(d => d.ColorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.Producto)
-                    .WithMany(p => p.ProductosColoresPrecios)
+                    .WithMany(p => p.Variantes)
                     .HasForeignKey(d => d.ProductoId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });

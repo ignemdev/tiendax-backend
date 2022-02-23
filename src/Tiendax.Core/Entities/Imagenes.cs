@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace Tiendax.Core.Entities
 {
-    public partial class Colores
+    public partial class Imagenes
     {
         public int Id { get; set; }
-        public string Descripcion { get; set; } = null!;
-        public string Hex { get; set; } = null!;
+        public string Path { get; set; } = null!;
+        public int VarianteId { get; set; }
         public bool? Activo { get; set; }
         public DateTime? Creado { get; set; }
         public DateTime? Modificado { get; set; }
+
+        public virtual Variantes Variante { get; set; } = null!;
     }
 }

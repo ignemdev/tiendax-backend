@@ -8,8 +8,7 @@ namespace Tiendax.Core.Entities
         public Productos()
         {
             ProductosCaracteristicas = new HashSet<ProductosCaracteristicas>();
-            ProductosColoresImagenes = new HashSet<ProductosColoresImagenes>();
-            ProductosColoresPrecios = new HashSet<ProductosColoresPrecios>();
+            Variantes = new HashSet<Variantes>();
             Categoria = new HashSet<Categorias>();
         }
 
@@ -25,8 +24,7 @@ namespace Tiendax.Core.Entities
 
         public virtual Marcas Marca { get; set; } = null!;
         public virtual ICollection<ProductosCaracteristicas> ProductosCaracteristicas { get; set; }
-        public virtual ICollection<ProductosColoresImagenes> ProductosColoresImagenes { get; set; }
-        public virtual ICollection<ProductosColoresPrecios> ProductosColoresPrecios { get; set; }
+        public virtual ICollection<Variantes> Variantes { get; set; }
 
         public virtual ICollection<Categorias> Categoria { get; set; }
     }
