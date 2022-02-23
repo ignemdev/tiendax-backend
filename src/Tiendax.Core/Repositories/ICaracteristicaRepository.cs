@@ -10,5 +10,5 @@ namespace Tiendax.Core.Repositories;
 public interface ICaracteristicaRepository : IRepository<Caracteristica>
 {
     Task UpdateAsync(Caracteristica caracteristica);
-    void UpdateRange(IEnumerable<Caracteristica> caracteristica);
+    void UpdateRange(IEnumerable<Caracteristica> caracteristicas);
 }
