@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tiendax.Core\Tiendax.Core.csproj" />
+  </ItemGroup>
+
 </Project>
