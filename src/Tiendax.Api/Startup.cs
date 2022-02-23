@@ -1,4 +1,6 @@
-﻿namespace Tiendax.Api;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Tiendax.Api;
 
 public class Startup
 {
@@ -11,6 +13,8 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddDataConfiguration(Configuration);
     }
 
     public void Configure(WebApplication app, IWebHostEnvironment env)
