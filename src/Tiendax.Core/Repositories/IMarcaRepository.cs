@@ -9,6 +9,7 @@ namespace Tiendax.Core.Repositories;
 
 public interface IMarcaRepository : IRepository<Marca>
 {
-    Task UpdateAsync(Marca marca);
+    Task<Marca> UpdateAsync(Marca marca);
+    Task<Marca> ToggleActivoById(int marcaId);
     void UpdateRange(IEnumerable<Marca> marca);
 }

@@ -9,6 +9,7 @@ namespace Tiendax.Core.Repositories;
 
 public interface IColorRepository : IRepository<Color>
 {
-    Task UpdateAsync(Color color);
+    Task<Color> UpdateAsync(Color color);
+    Task<Color> ToggleActivoById(int colorId);
     void UpdateRange(IEnumerable<Color> colores);
 }

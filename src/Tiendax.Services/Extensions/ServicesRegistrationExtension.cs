@@ -14,6 +14,9 @@ public static class ServicesRegistrationExtension
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddTransient<ICaracteristicaServices, CaracteristicaServices>();
+        services.AddTransient<IMarcaServices, MarcaServices>();
+        services.AddTransient<ICategoriaServices, CategoriaServices>();
+        services.AddTransient<IColorServices, ColorServices>();
 
         return services;
     }

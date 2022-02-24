@@ -14,15 +14,23 @@ public class ColorRepository : Repository<Color>, IColorRepository
     private readonly TiendaxContext _db;
     public ColorRepository(TiendaxContext db) : base(db) => _db = db;
 
-    public async Task UpdateAsync(Color Color)
+    public async Task<Color> UpdateAsync(Color Color)
     {
         var dbColor = await _db.Colores.FirstOrDefaultAsync(c => c.Id == Color.Id);
 
-        if (dbColor == null)
-            return;
+        dbColor!.Descripcion = Color.Descripcion ?? dbColor.Descripcion;
+        dbColor!.Hex = Color.Hex ?? dbColor.Hex;
 
-        dbColor.Descripcion = Color.Descripcion ?? dbColor.Descripcion;
-        dbColor.Hex = Color.Hex ?? dbColor.Hex;
+        return dbColor;
+    }
+
+    public async Task<Color> ToggleActivoById(int colorId)
+    {
+        var dbColor = await _db.Colores.FirstOrDefaultAsync(c => c.Id == colorId);
+
+        dbColor!.Activo = !dbColor.Activo;
+
+        return dbColor;
     }
 
     public void UpdateRange(IEnumerable<Color> colores)

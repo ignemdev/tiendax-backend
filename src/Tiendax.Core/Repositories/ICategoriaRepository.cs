@@ -9,6 +9,9 @@ namespace Tiendax.Core.Repositories;
 
 public interface ICategoriaRepository : IRepository<Categoria>
 {
-    Task UpdateAsync(Categoria categoria);
+    Task<Categoria> UpdateAsync(Categoria categoria);
+
+    Task<Categoria> ToggleActivoById(int categoriaId);
+
     void UpdateRange(IEnumerable<Categoria> categorias);
 }

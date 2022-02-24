@@ -24,14 +24,6 @@ public class CaracteristicaRepository : Repository<Caracteristica>, ICaracterist
         return dbCaracteristica;
     }
 
-    public void UpdateRange(IEnumerable<Caracteristica> caracteristicas)
-    {
-        if (!caracteristicas.Any())
-            return;
-
-        _db.Caracteristicas.UpdateRange(caracteristicas);
-    }
-
     public async Task<Caracteristica> ToggleActivoById(int caracteristicaId)
     {
         var dbCaracteristica = await _db.Caracteristicas.FirstOrDefaultAsync(c => c.Id == caracteristicaId);
@@ -39,5 +31,13 @@ public class CaracteristicaRepository : Repository<Caracteristica>, ICaracterist
         dbCaracteristica!.Activo = !dbCaracteristica.Activo;
 
         return dbCaracteristica;
+    }
+
+    public void UpdateRange(IEnumerable<Caracteristica> caracteristicas)
+    {
+        if (!caracteristicas.Any())
+            return;
+
+        _db.Caracteristicas.UpdateRange(caracteristicas);
     }
 }

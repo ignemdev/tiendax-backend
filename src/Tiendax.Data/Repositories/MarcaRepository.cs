@@ -14,14 +14,22 @@ public class MarcaRepository : Repository<Marca>, IMarcaRepository
     private readonly TiendaxContext _db;
     public MarcaRepository(TiendaxContext db) : base(db) => _db = db;
 
-    public async Task UpdateAsync(Marca marca)
+    public async Task<Marca> UpdateAsync(Marca marca)
     {
         var dbMarca = await _db.Marcas.FirstOrDefaultAsync(c => c.Id == marca.Id);
 
-        if (dbMarca == null)
-            return;
+        dbMarca!.Nombre = marca.Nombre ?? dbMarca.Nombre;
 
-        dbMarca.Nombre = marca.Nombre ?? dbMarca.Nombre;
+        return dbMarca;
+    }
+
+    public async Task<Marca> ToggleActivoById(int marcaId)
+    {
+        var dbMarca = await _db.Marcas.FirstOrDefaultAsync(c => c.Id == marcaId);
+
+        dbMarca!.Activo = !dbMarca.Activo;
+
+        return dbMarca;
     }
 
     public void UpdateRange(IEnumerable<Marca> marcas)
