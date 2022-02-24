@@ -18,8 +18,8 @@ public interface IRepository<TEntity> where TEntity : class
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null!,
         string includeProperties = null!
     );
-    Task AddAsync(TEntity entity);
-    Task AddRangeAsync(IEnumerable<TEntity> entities);
+    Task<TEntity> AddAsync(TEntity entity);
+    Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities);
     void Remove(TEntity entity);
     void RemoveById(int id);
     void RemoveRange(IEnumerable<TEntity> entities);

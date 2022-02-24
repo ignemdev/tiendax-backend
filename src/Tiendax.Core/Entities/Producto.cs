@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tiendax.Core.Entities;
 public class Producto : BaseEntity
@@ -11,8 +12,14 @@ public class Producto : BaseEntity
         Categorias = new List<Categoria>();
     }
 
+    [MinLength(1)]
+    [Required(AllowEmptyStrings = false)]
     public string Nombre { get; set; } = null!;
+
+    [MinLength(1)]
+    [Required(AllowEmptyStrings = false)]
     public string Descripcion { get; set; } = null!;
+
     public int MarcaId { get; set; }
 
     public Marca Marca { get; set; } = null!;

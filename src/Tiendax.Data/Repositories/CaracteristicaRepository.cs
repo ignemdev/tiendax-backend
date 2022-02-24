@@ -15,14 +15,13 @@ public class CaracteristicaRepository : Repository<Caracteristica>, ICaracterist
 
     public CaracteristicaRepository(TiendaxContext db) : base(db) => _db = db;
 
-    public async Task UpdateAsync(Caracteristica caracteristica)
+    public async Task<Caracteristica> UpdateAsync(Caracteristica caracteristica)
     {
         var dbCaracteristica = await _db.Caracteristicas.FirstOrDefaultAsync(c => c.Id == caracteristica.Id);
 
-        if (dbCaracteristica == null)
-            return;
+        dbCaracteristica!.Descripcion = caracteristica.Descripcion ?? dbCaracteristica.Descripcion;
 
-        dbCaracteristica.Descripcion = caracteristica.Descripcion ?? dbCaracteristica.Descripcion;
+        return dbCaracteristica;
     }
 
     public void UpdateRange(IEnumerable<Caracteristica> caracteristicas)
@@ -31,5 +30,14 @@ public class CaracteristicaRepository : Repository<Caracteristica>, ICaracterist
             return;
 
         _db.Caracteristicas.UpdateRange(caracteristicas);
+    }
+
+    public async Task<Caracteristica> ToggleActivoById(int caracteristicaId)
+    {
+        var dbCaracteristica = await _db.Caracteristicas.FirstOrDefaultAsync(c => c.Id == caracteristicaId);
+
+        dbCaracteristica!.Activo = !dbCaracteristica.Activo;
+
+        return dbCaracteristica;
     }
 }

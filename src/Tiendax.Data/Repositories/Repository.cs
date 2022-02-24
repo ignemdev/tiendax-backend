@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Tiendax.Core.Entities;
 using Tiendax.Core.Repositories;
 
 namespace Tiendax.Data.Repositories;
@@ -18,14 +19,16 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         _db = db;
         dbSet = _db.Set<TEntity>();
     }
-    public async Task AddAsync(TEntity entity)
+    public async Task<TEntity> AddAsync(TEntity entity)
     {
         await dbSet.AddAsync(entity);
+        return entity;
     }
 
-    public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    public async Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities)
     {
         await dbSet.AddRangeAsync(entities);
+        return entities;
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null!, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null!, string includeProperties = null!)

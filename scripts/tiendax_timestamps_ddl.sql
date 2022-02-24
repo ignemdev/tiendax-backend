@@ -8,7 +8,7 @@ CREATE PROCEDURE [mant].[Usp_SetTimestamps](
 )
 AS
 DECLARE @DynamicSQL NVARCHAR(200) 
-SET @DynamicSQL = N'UPDATE ' + @TableName 
+SET @DynamicSQL = N'UPDATE ' + CONCAT('mant.',@TableName) 
                 + ' SET '+ @ColumnName +' = ''' + convert(VARCHAR, getdate(), 120) +	
                 + ''' WHERE Id = ' + CONVERT(VARCHAR, @RowId)
 PRINT(@DynamicSQL)
@@ -67,7 +67,7 @@ BEGIN
              FROM sys.objects 
              WHERE sys.objects.name = OBJECT_NAME(@@PROCID)
 
-    EXEC [mant].[Usp_SetTimestamps] @TableName, 'Creado', @RowId
+    EXEC [Tiendax].[mant].[Usp_SetTimestamps] @TableName, 'Creado', @RowId
 END
 GO
 

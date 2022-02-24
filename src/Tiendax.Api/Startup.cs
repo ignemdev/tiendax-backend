@@ -29,6 +29,8 @@ public class Startup
         services.AddDataConfiguration(Configuration);
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddServices();
+        services.AddAutoMapper(typeof(Startup));
     }
 
     public void Configure(WebApplication app, IWebHostEnvironment env)

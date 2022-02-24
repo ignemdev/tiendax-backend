@@ -45,6 +45,7 @@ public static class MappingsExtensions
                 .IsRequired();
 
             entity.Property(e => e.Modificado).HasColumnType("datetime");
+
         });
 
         return modelBuilder;

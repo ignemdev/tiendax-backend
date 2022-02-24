@@ -7,13 +7,10 @@ using Tiendax.Core.Entities;
 namespace Tiendax.Data;
 public class TiendaxContext : DbContext
 {
-    public TiendaxContext()
-    {
-    }
-
     public TiendaxContext(DbContextOptions<TiendaxContext> options)
         : base(options)
     {
+
     }
 
     public DbSet<Caracteristica> Caracteristicas { get; set; } = null!;
@@ -37,5 +34,22 @@ public class TiendaxContext : DbContext
         modelBuilder.AddProductosMapping();
         modelBuilder.AddVariantesMapping();
         modelBuilder.AddProductosCaracteristicasMapping();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entityEntry in ChangeTracker.Entries<BaseEntity>())
+        {
+            if (entityEntry.State == EntityState.Added)
+            {
+                entityEntry.Entity.Creado = DateTime.Now;
+                entityEntry.Entity.Modificado = DateTime.Now;
+            }
+            else if (entityEntry.State == EntityState.Modified)
+            {
+                entityEntry.Entity.Modificado = DateTime.Now;
+            }
+        }
+        return base.SaveChangesAsync(cancellationToken);
     }
 }
