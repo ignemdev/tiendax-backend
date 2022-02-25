@@ -9,7 +9,7 @@ namespace Tiendax.Core.Services;
 
 public interface ICategoriaServices
 {
-    Task<IEnumerable<Categoria>> GetAllActiveCategorias();
+    Task<IEnumerable<Categoria>> GetAllCategorias();
     Task<Categoria> AddCategoria(Categoria categoria);
     Task<Categoria> UpdateCategoria(Categoria categoria);
     Task<Categoria> GetCategoriaById(int categoriaId);

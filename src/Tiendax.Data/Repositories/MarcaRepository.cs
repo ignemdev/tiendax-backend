@@ -16,7 +16,7 @@ public class MarcaRepository : Repository<Marca>, IMarcaRepository
 
     public async Task<Marca> UpdateAsync(Marca marca)
     {
-        var dbMarca = await _db.Marcas.FirstOrDefaultAsync(c => c.Id == marca.Id);
+        var dbMarca = await _db.Marcas.FirstOrDefaultAsync(m => m.Id == marca.Id);
 
         dbMarca!.Nombre = marca.Nombre ?? dbMarca.Nombre;
 
@@ -25,10 +25,10 @@ public class MarcaRepository : Repository<Marca>, IMarcaRepository
 
     public async Task<Marca> ToggleActivoById(int marcaId)
     {
-        var dbMarca = await _db.Marcas.FirstOrDefaultAsync(c => c.Id == marcaId);
+        var dbMarca = await _db.Marcas.Include("Productos").FirstOrDefaultAsync(m => m.Id == marcaId);
 
         dbMarca!.Activo = !dbMarca.Activo;
-
+        //descativar productos
         return dbMarca;
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tiendax.Core.Entities;
@@ -7,7 +8,7 @@ namespace Tiendax.Core.Entities;
 {
     public Variante()
     {
-        Imagenes = new List<Imagen>();
+        Imagenes = new Collection<Imagen>();
     }
 
     public int ProductoId { get; set; }
@@ -19,6 +20,7 @@ namespace Tiendax.Core.Entities;
     public double Precio { get; set; }
     public int? ColorId { get; set; }
 
+    public Color? Color { get; set; } = null!;
     public Producto Producto { get; set; } = null!;
-    public IEnumerable<Imagen> Imagenes { get; set; }
+    public ICollection<Imagen> Imagenes { get; set; }
 }

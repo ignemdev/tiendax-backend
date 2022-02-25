@@ -23,12 +23,12 @@ public class MarcaController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ResponseModel<IEnumerable<MarcaMantDetail>>>> GetAllActiveMarcas()
+    public async Task<ActionResult<ResponseModel<IEnumerable<MarcaMantDetail>>>> GetAllMarcas()
     {
         var response = new ResponseModel<IEnumerable<MarcaMantDetail>>();
         try
         {
-            var marcas = await _marcaServices.GetAllActiveMarcas();
+            var marcas = await _marcaServices.GetAllMarcas();
             response.Result = _mapper.Map<IEnumerable<MarcaMantDetail>>(marcas);
 
             if (response.Result == null)

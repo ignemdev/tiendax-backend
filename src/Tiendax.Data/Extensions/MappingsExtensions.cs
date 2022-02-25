@@ -184,6 +184,11 @@ public static class MappingsExtensions
                 .WithMany(p => p.Variantes)
                 .HasForeignKey(d => d.ProductoId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(d => d.Color)
+                .WithMany()
+                .HasForeignKey(d => d.ColorId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         return modelBuilder;

@@ -23,9 +23,9 @@ public class CaracteristicaServices : ICaracteristicaServices
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<Caracteristica>> GetAllActiveCaracteristicas()
+    public async Task<IEnumerable<Caracteristica>> GetAllCaracteristicas()
     {
-        var caracteristicas = await _unitOfWork.Caracteristica.GetAllAsync(c => c.Activo == Convert.ToBoolean((int)Estado.Activo));
+        var caracteristicas = await _unitOfWork.Caracteristica.GetAllAsync();
         return caracteristicas;
     }
 

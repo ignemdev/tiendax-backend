@@ -23,12 +23,12 @@ public class CategoriaController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ResponseModel<IEnumerable<CategoriaMantDetail>>>> GetAllActiveCategorias()
+    public async Task<ActionResult<ResponseModel<IEnumerable<CategoriaMantDetail>>>> GetAllCategorias()
     {
         var response = new ResponseModel<IEnumerable<CategoriaMantDetail>>();
         try
         {
-            var categorias = await _categoriaServices.GetAllActiveCategorias();
+            var categorias = await _categoriaServices.GetAllCategorias();
             response.Result = _mapper.Map<IEnumerable<CategoriaMantDetail>>(categorias);
 
             if (response.Result == null)

@@ -11,11 +11,11 @@ using Tiendax.Core.Services;
 
 namespace Tiendax.Services;
 
-public class ColorServices : IColorServices
+public class VarianteServices : IVarianteServices
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IConfiguration _configuration;
-    public ColorServices(
+    public VarianteServices(
         IConfiguration configuration,
         IUnitOfWork unitOfWork)
     {
@@ -23,66 +23,67 @@ public class ColorServices : IColorServices
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<Color>> GetAllColores()
+    public async Task<IEnumerable<Variante>> GetAllVariantes()
     {
-        var colors = await _unitOfWork.Color.GetAllAsync();
-        return colors;
+        var variantes = await _unitOfWork.Variante.GetAllAsync(v => v.Color!.Activo == Convert.ToBoolean((int)Estado.Activo), 
+            includeProperties: "Color");
+        return variantes;
     }
 
-    public async Task<Color> AddColor(Color color)
+    public async Task<Variante> AddVariante(Variante variante)
     {
-        if (color == null)
+        if (variante == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 
-        var addedColor = await _unitOfWork.Color.AddAsync(color);
+        var addedVariante = await _unitOfWork.Variante.AddAsync(variante);
         await _unitOfWork.SaveAsync();
 
-        return addedColor;
+        return addedVariante;
     }
 
-    public async Task<Color> GetColorById(int colorId)
+    public async Task<Variante> GetVarianteById(int varianteId)
     {
-        if (colorId == 0)
+        if (varianteId == 0)
             throw new ArgumentNullException(_configuration["Mensajes:E002"]);
 
-        var dbColor = await _unitOfWork.Color.GetByIdAsync(colorId);
+        var dbVariante = await _unitOfWork.Variante.GetFirstOrDefaultAsync(v => v.Id == varianteId, includeProperties: "Color");
 
-        if (dbColor == null)
+        if (dbVariante == null)
             throw new NullReferenceException(_configuration["Mensajes:E003"]);
 
-        return dbColor;
+        return dbVariante;
     }
 
-    public async Task<Color> UpdateColor(Color color)
+    public async Task<Variante> UpdateVariante(Variante variante)
     {
-        if (color == null)
+        if (variante == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 
-        if (color.Id == 0)
+        if (variante.Id == 0)
             throw new ArgumentNullException(_configuration["Mensajes:E002"]);
 
-        var updatedColor = await _unitOfWork.Color.UpdateAsync(color);
+        var updatedVariante = await _unitOfWork.Variante.UpdateAsync(variante);
 
-        if (updatedColor == null)
+        if (updatedVariante == null)
             throw new NullReferenceException(_configuration["Mensajes:E003"]);
 
         await _unitOfWork.SaveAsync();
 
-        return updatedColor;
+        return updatedVariante;
     }
 
-    public async Task<Color> ToggleActivoById(int colorId)
+    public async Task<Variante> ToggleActivoById(int varianteId)
     {
-        if (colorId == 0)
+        if (varianteId == 0)
             throw new ArgumentNullException(_configuration["Mensajes:E002"]);
 
-        var toggledColor = await _unitOfWork.Color.ToggleActivoById(colorId);
+        var toggledVariante = await _unitOfWork.Variante.ToggleActivoById(varianteId);
 
-        if (toggledColor == null)
+        if (toggledVariante == null)
             throw new NullReferenceException(_configuration["Mensajes:E003"]);
 
         await _unitOfWork.SaveAsync();
 
-        return toggledColor;
+        return toggledVariante;
     }
 }

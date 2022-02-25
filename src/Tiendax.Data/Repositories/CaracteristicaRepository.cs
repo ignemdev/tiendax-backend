@@ -19,18 +19,20 @@ public class CaracteristicaRepository : Repository<Caracteristica>, ICaracterist
     {
         var dbCaracteristica = await _db.Caracteristicas.FirstOrDefaultAsync(c => c.Id == caracteristica.Id);
 
-        dbCaracteristica!.Descripcion = caracteristica.Descripcion ?? dbCaracteristica.Descripcion;
+        if(dbCaracteristica != null)
+            dbCaracteristica!.Descripcion = caracteristica.Descripcion ?? dbCaracteristica.Descripcion;
 
-        return dbCaracteristica;
+        return dbCaracteristica!;
     }
 
     public async Task<Caracteristica> ToggleActivoById(int caracteristicaId)
     {
         var dbCaracteristica = await _db.Caracteristicas.FirstOrDefaultAsync(c => c.Id == caracteristicaId);
 
-        dbCaracteristica!.Activo = !dbCaracteristica.Activo;
+        if(dbCaracteristica != null)
+            dbCaracteristica!.Activo = !dbCaracteristica.Activo;
 
-        return dbCaracteristica;
+        return dbCaracteristica!;
     }
 
     public void UpdateRange(IEnumerable<Caracteristica> caracteristicas)

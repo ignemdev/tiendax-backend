@@ -23,12 +23,12 @@ public class ColorController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ResponseModel<IEnumerable<ColorMantDetail>>>> GetAllActiveColores()
+    public async Task<ActionResult<ResponseModel<IEnumerable<ColorMantDetail>>>> GetAllColores()
     {
         var response = new ResponseModel<IEnumerable<ColorMantDetail>>();
         try
         {
-            var colores = await _colorServices.GetAllActiveColores();
+            var colores = await _colorServices.GetAllColores();
             response.Result = _mapper.Map<IEnumerable<ColorMantDetail>>(colores);
 
             if (response.Result == null)
@@ -70,7 +70,7 @@ public class ColorController : ControllerBase
         var response = new ResponseModel<ColorMantDetail>();
         try
         {
-            var color = _mapper.Map<Color>(colorMantAdd);
+            var color = _mapper.Map<Core.Entities.Color>(colorMantAdd);
             var addedColor = await _colorServices.AddColor(color);
             response.Result = _mapper.Map<ColorMantDetail>(addedColor);
 
@@ -92,7 +92,7 @@ public class ColorController : ControllerBase
         var response = new ResponseModel<ColorMantDetail>();
         try
         {
-            var color = _mapper.Map<Color>(colorMantUpdate);
+            var color = _mapper.Map<Core.Entities.Color>(colorMantUpdate);
             var updatedColor = await _colorServices.UpdateColor(color);
             response.Result = _mapper.Map<ColorMantDetail>(updatedColor);
 

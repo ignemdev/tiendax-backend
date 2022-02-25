@@ -9,6 +9,7 @@ namespace Tiendax.Core.Repositories;
 
 public interface IVarianteRepository : IRepository<Variante>
 {
-    Task UpdateAsync(Variante variante);
+    Task<Variante> UpdateAsync(Variante variante);
+    Task<Variante> ToggleActivoById(int varianteId);
     void UpdateRange(IEnumerable<Variante> variantes);
 }

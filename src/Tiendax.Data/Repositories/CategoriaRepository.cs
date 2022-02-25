@@ -19,18 +19,20 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
     {
         var dbCategoria = await _db.Categorias.FirstOrDefaultAsync(c => c.Id == categoria.Id);
 
-        dbCategoria!.Descripcion = categoria.Descripcion ?? dbCategoria.Descripcion;
+        if(dbCategoria != null)
+            dbCategoria!.Descripcion = categoria.Descripcion ?? dbCategoria.Descripcion;
 
-        return dbCategoria;
+        return dbCategoria!;
     }
 
     public async Task<Categoria> ToggleActivoById(int categoriaId)
     {
         var dbCategoria = await _db.Categorias.FirstOrDefaultAsync(c => c.Id == categoriaId);
 
-        dbCategoria!.Activo = !dbCategoria.Activo;
+        if(dbCategoria != null)
+            dbCategoria!.Activo = !dbCategoria.Activo;
 
-        return dbCategoria;
+        return dbCategoria!;
     }
 
     public void UpdateRange(IEnumerable<Categoria> categorias)

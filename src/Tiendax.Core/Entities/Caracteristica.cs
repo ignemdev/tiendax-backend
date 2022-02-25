@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,12 +10,12 @@ public class Caracteristica : BaseEntity
 {
     public Caracteristica()
     {
-        ProductosCaracteristicas = new List<ProductoCaracteristica>();
+        ProductosCaracteristicas = new Collection<ProductoCaracteristica>();
     }
 
     [MinLength(1)]
     [Required(AllowEmptyStrings = false)]
     public string Descripcion { get; set; } = null!;
 
-    public IEnumerable<ProductoCaracteristica> ProductosCaracteristicas { get; set; }
+    public ICollection<ProductoCaracteristica> ProductosCaracteristicas { get; set; }
 }

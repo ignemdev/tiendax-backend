@@ -9,6 +9,7 @@ namespace Tiendax.Core.Repositories;
 
 public interface IImagenRepository : IRepository<Imagen>
 {
-    Task UpdateAsync(Imagen imagen);
+    Task<Imagen> UpdateAsync(Imagen imagen);
+    Task<Imagen> ToggleActivoById(int imagenId);
     void UpdateRange(IEnumerable<Imagen> imagenes);
 }

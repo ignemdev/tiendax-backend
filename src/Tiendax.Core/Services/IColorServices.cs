@@ -9,7 +9,7 @@ namespace Tiendax.Core.Services;
 
 public interface IColorServices
 {
-    Task<IEnumerable<Color>> GetAllActiveColores();
+    Task<IEnumerable<Color>> GetAllColores();
     Task<Color> AddColor(Color color);
     Task<Color> UpdateColor(Color color);
     Task<Color> GetColorById(int colorId);

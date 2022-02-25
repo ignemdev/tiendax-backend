@@ -17,6 +17,9 @@ public static class ServicesRegistrationExtension
         services.AddTransient<IMarcaServices, MarcaServices>();
         services.AddTransient<ICategoriaServices, CategoriaServices>();
         services.AddTransient<IColorServices, ColorServices>();
+        services.AddTransient<IProductoServices, ProductoServices>();
+        services.AddTransient<IVarianteServices, VarianteServices>();
+        services.AddTransient<IImagenServices, ImagenServices>();
 
         return services;
     }

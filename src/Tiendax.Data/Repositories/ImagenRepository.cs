@@ -14,18 +14,28 @@ public class ImagenRepository : Repository<Imagen>, IImagenRepository
     private readonly TiendaxContext _db;
     public ImagenRepository(TiendaxContext db) : base(db) => _db = db;
 
-    public async Task UpdateAsync(Imagen imagen)
+    public async Task<Imagen> UpdateAsync(Imagen imagen)
     {
-        var dbImagen = await _db.Imagenes.FirstOrDefaultAsync(c => c.Id == imagen.Id);
+        var dbImagen = await _db.Imagenes.FirstOrDefaultAsync(i => i.Id == imagen.Id);
 
-        if (dbImagen == null)
-            return;
 
-        dbImagen.Path = imagen.Path ?? dbImagen.Path;
-        dbImagen.VarianteId = imagen.VarianteId;
+        if(dbImagen != null)
+        {
+            dbImagen!.Path = imagen.Path ?? dbImagen.Path;
+            dbImagen!.VarianteId = imagen.VarianteId;
+        }
 
+        return dbImagen!;
     }
+    public async Task<Imagen> ToggleActivoById(int imagenId)
+    {
+        var dbImagen = await _db.Imagenes.FirstOrDefaultAsync(i => i.Id == imagenId);
 
+        if (dbImagen != null)
+            dbImagen!.Activo = !dbImagen.Activo;
+
+        return dbImagen!;
+    }
     public void UpdateRange(IEnumerable<Imagen> imagenes)
     {
         if (!imagenes.Any())

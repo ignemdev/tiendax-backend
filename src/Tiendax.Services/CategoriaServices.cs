@@ -33,9 +33,9 @@ public class CategoriaServices : ICategoriaServices
         return addedCategoria;
     }
 
-    public async Task<IEnumerable<Categoria>> GetAllActiveCategorias()
+    public async Task<IEnumerable<Categoria>> GetAllCategorias()
     {
-        var categorias = await _unitOfWork.Categoria.GetAllAsync(c => c.Activo == Convert.ToBoolean((int)Estado.Activo));
+        var categorias = await _unitOfWork.Categoria.GetAllAsync();
         return categorias;
     }
 

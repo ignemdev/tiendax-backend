@@ -37,7 +37,7 @@ public class MarcaServices : IMarcaServices
         return addedMarca;
     }
 
-    public async Task<IEnumerable<Marca>> GetAllActiveMarcas()
+    public async Task<IEnumerable<Marca>> GetAllMarcas()
     {
         var marcas = await _unitOfWork.Marca.GetAllAsync(c => c.Activo == Convert.ToBoolean((int)Estado.Activo));
         return marcas;
@@ -65,6 +65,11 @@ public class MarcaServices : IMarcaServices
 
         if (toggledMarca == null)
             throw new NullReferenceException(_configuration["Mensajes:E003"]);
+
+        if (toggledMarca.Productos.Any())
+        {
+            toggledMarca.Productos.ToList().ForEach(p => p.Activo = toggledMarca.Activo);
+        }
 
         await _unitOfWork.SaveAsync();
 

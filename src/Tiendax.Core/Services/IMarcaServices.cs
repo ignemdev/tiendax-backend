@@ -9,7 +9,7 @@ namespace Tiendax.Core.Services;
 
 public interface IMarcaServices
 {
-    Task<IEnumerable<Marca>> GetAllActiveMarcas();
+    Task<IEnumerable<Marca>> GetAllMarcas();
     Task<Marca> AddMarca(Marca marca);
     Task<Marca> UpdateMarca(Marca marca);
     Task<Marca> GetMarcaById(int marcaId);

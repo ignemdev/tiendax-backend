@@ -9,7 +9,7 @@ namespace Tiendax.Core.Services;
 
 public interface ICaracteristicaServices
 {
-    Task<IEnumerable<Caracteristica>> GetAllActiveCaracteristicas();
+    Task<IEnumerable<Caracteristica>> GetAllCaracteristicas();
     Task<Caracteristica> AddCaracteristica(Caracteristica caracteristica);
     Task<Caracteristica> UpdateCaracteristica(Caracteristica caracteristica);
     Task<Caracteristica> GetCaracteristicaById(int caracteristicaId);

@@ -14,17 +14,31 @@ public class VarianteRepository : Repository<Variante>, IVarianteRepository
     private readonly TiendaxContext _db;
     public VarianteRepository(TiendaxContext db) : base(db) => _db = db;
 
-    public async Task UpdateAsync(Variante variante)
+    public async Task<Variante> ToggleActivoById(int varianteId)
     {
-        var dbVariante = await _db.Variantes.FirstOrDefaultAsync(c => c.Id == variante.Id);
+        var dbVariante = await _db.Variantes.Include("Color").FirstOrDefaultAsync(v => v.Id == varianteId);
 
-        if (dbVariante == null)
-            return;
+        if (dbVariante != null)
+        {
+            dbVariante!.Activo = !dbVariante.Activo;
+        }
 
-        dbVariante.Sku = variante.Sku ?? dbVariante.Sku;
-        dbVariante.Stock = variante.Stock;
-        dbVariante.Precio = variante.Precio;
-        dbVariante.ColorId = variante.ColorId;
+        return dbVariante!;
+    }
+
+    public async Task<Variante> UpdateAsync(Variante variante)
+    {
+        var dbVariante = await _db.Variantes.Include("Color").FirstOrDefaultAsync(v => v.Id == variante.Id);
+
+        if(dbVariante != null)
+        {
+            dbVariante!.Sku = variante.Sku ?? dbVariante.Sku;
+            dbVariante!.Stock = variante.Stock;
+            dbVariante!.Precio = variante.Precio;
+            dbVariante!.ColorId = variante.ColorId;
+        }
+
+        return dbVariante!;
     }
 
     public void UpdateRange(IEnumerable<Variante> variantes)

@@ -25,12 +25,12 @@ public class CaracteristicaController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ResponseModel<IEnumerable<CaracteristicaMantDetail>>>> GetAllActiveCaracteristicas()
+    public async Task<ActionResult<ResponseModel<IEnumerable<CaracteristicaMantDetail>>>> GetAllCaracteristicas()
     {
         var response = new ResponseModel<IEnumerable<CaracteristicaMantDetail>>();
         try
         {
-            var caracteristicas = await _caracteristicaServices.GetAllActiveCaracteristicas();
+            var caracteristicas = await _caracteristicaServices.GetAllCaracteristicas();
             response.Result = _mapper.Map<IEnumerable<CaracteristicaMantDetail>>(caracteristicas);
 
             if (response.Result == null)

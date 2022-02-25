@@ -6,16 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiendax.Core;
 using Tiendax.Core.Entities;
-using Tiendax.Core.Enumerables;
 using Tiendax.Core.Services;
 
 namespace Tiendax.Services;
 
-public class ColorServices : IColorServices
+public class ImagenServices : IImagenServices
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IConfiguration _configuration;
-    public ColorServices(
+    public ImagenServices(
         IConfiguration configuration,
         IUnitOfWork unitOfWork)
     {
@@ -23,66 +22,66 @@ public class ColorServices : IColorServices
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<Color>> GetAllColores()
+    public async Task<Imagen> AddImagen(Imagen imagen)
     {
-        var colors = await _unitOfWork.Color.GetAllAsync();
-        return colors;
-    }
-
-    public async Task<Color> AddColor(Color color)
-    {
-        if (color == null)
+        if (imagen == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 
-        var addedColor = await _unitOfWork.Color.AddAsync(color);
+        var addedImagen = await _unitOfWork.Imagen.AddAsync(imagen);
         await _unitOfWork.SaveAsync();
 
-        return addedColor;
+        return addedImagen;
     }
 
-    public async Task<Color> GetColorById(int colorId)
+    public async Task<IEnumerable<Imagen>> GetAllImagenesByVarianteId(int varianteId)
     {
-        if (colorId == 0)
+        var imagenes = await _unitOfWork.Imagen.GetAllAsync(i => i.VarianteId == varianteId);
+        return imagenes;
+    }
+
+    public async Task<Imagen> GetImagenById(int imagenId)
+    {
+        if (imagenId == 0)
             throw new ArgumentNullException(_configuration["Mensajes:E002"]);
 
-        var dbColor = await _unitOfWork.Color.GetByIdAsync(colorId);
+        var dbImagen = await _unitOfWork.Imagen.GetByIdAsync(imagenId);
 
-        if (dbColor == null)
+        if (dbImagen == null)
             throw new NullReferenceException(_configuration["Mensajes:E003"]);
 
-        return dbColor;
+        return dbImagen;
     }
 
-    public async Task<Color> UpdateColor(Color color)
+    public async Task<Imagen> ToggleActivoById(int imagenId)
     {
-        if (color == null)
+        if (imagenId == 0)
+            throw new ArgumentNullException(_configuration["Mensajes:E002"]);
+
+        var toggledImagen = await _unitOfWork.Imagen.ToggleActivoById(imagenId);
+
+        if (toggledImagen == null)
+            throw new NullReferenceException(_configuration["Mensajes:E003"]);
+
+        await _unitOfWork.SaveAsync();
+
+        return toggledImagen;
+    }
+
+    public async Task<Imagen> UpdateImagen(Imagen imagen)
+    {
+        if (imagen == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 
-        if (color.Id == 0)
+        if (imagen.Id == 0)
             throw new ArgumentNullException(_configuration["Mensajes:E002"]);
 
-        var updatedColor = await _unitOfWork.Color.UpdateAsync(color);
+        var updatedImagen = await _unitOfWork.Imagen.UpdateAsync(imagen);
 
-        if (updatedColor == null)
+        if (updatedImagen == null)
             throw new NullReferenceException(_configuration["Mensajes:E003"]);
 
         await _unitOfWork.SaveAsync();
 
-        return updatedColor;
-    }
-
-    public async Task<Color> ToggleActivoById(int colorId)
-    {
-        if (colorId == 0)
-            throw new ArgumentNullException(_configuration["Mensajes:E002"]);
-
-        var toggledColor = await _unitOfWork.Color.ToggleActivoById(colorId);
-
-        if (toggledColor == null)
-            throw new NullReferenceException(_configuration["Mensajes:E003"]);
-
-        await _unitOfWork.SaveAsync();
-
-        return toggledColor;
+        return updatedImagen;
     }
 }

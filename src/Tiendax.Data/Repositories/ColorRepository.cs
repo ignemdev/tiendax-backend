@@ -18,19 +18,25 @@ public class ColorRepository : Repository<Color>, IColorRepository
     {
         var dbColor = await _db.Colores.FirstOrDefaultAsync(c => c.Id == Color.Id);
 
-        dbColor!.Descripcion = Color.Descripcion ?? dbColor.Descripcion;
-        dbColor!.Hex = Color.Hex ?? dbColor.Hex;
+        if(dbColor != null)
+        {
+            dbColor!.Descripcion = Color.Descripcion ?? dbColor.Descripcion;
+            dbColor!.Hex = Color.Hex ?? dbColor.Hex;
+        }
 
-        return dbColor;
+        return dbColor!;
     }
 
     public async Task<Color> ToggleActivoById(int colorId)
     {
         var dbColor = await _db.Colores.FirstOrDefaultAsync(c => c.Id == colorId);
 
-        dbColor!.Activo = !dbColor.Activo;
+        if(dbColor != null)
+        {
+            dbColor!.Activo = !dbColor.Activo;
+        }
 
-        return dbColor;
+        return dbColor!;
     }
 
     public void UpdateRange(IEnumerable<Color> colores)
