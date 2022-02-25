@@ -33,9 +33,9 @@ public class VarianteController : ControllerBase
         try
         {
             var variantes = await _varianteServices.GetAllVariantes();
-            response.Result = _mapper.Map<IEnumerable<VarianteMantDetail>>(variantes);
+            response.Data = _mapper.Map<IEnumerable<VarianteMantDetail>>(variantes);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -54,9 +54,9 @@ public class VarianteController : ControllerBase
         try
         {
             var variante = await _varianteServices.GetVarianteById(id);
-            response.Result = _mapper.Map<VarianteMantDetail>(variante);
+            response.Data = _mapper.Map<VarianteMantDetail>(variante);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -76,9 +76,9 @@ public class VarianteController : ControllerBase
         {
             var variante = _mapper.Map<Variante>(varianteMantAdd);
             var addedVariante = await _varianteServices.AddVariante(variante);
-            response.Result = _mapper.Map<VarianteMantDetail>(addedVariante);
+            response.Data = _mapper.Map<VarianteMantDetail>(addedVariante);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return CreatedAtRoute(201, response);
@@ -98,9 +98,9 @@ public class VarianteController : ControllerBase
         {
             var variante = _mapper.Map<Variante>(varianteMantUpdate);
             var updatedVariante = await _varianteServices.UpdateVariante(variante);
-            response.Result = _mapper.Map<VarianteMantDetail>(updatedVariante);
+            response.Data = _mapper.Map<VarianteMantDetail>(updatedVariante);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -119,9 +119,9 @@ public class VarianteController : ControllerBase
         try
         {
             var variante = await _varianteServices.ToggleActivoById(id);
-            response.Result = _mapper.Map<VarianteMantDetail>(variante);
+            response.Data = _mapper.Map<VarianteMantDetail>(variante);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -140,9 +140,9 @@ public class VarianteController : ControllerBase
         try
         {
             var variante = await _imagenServices.GetAllImagenesByVarianteId(id);
-            response.Result = _mapper.Map<IEnumerable<ImagenMantVariante>>(variante);
+            response.Data = _mapper.Map<IEnumerable<ImagenMantVariante>>(variante);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);

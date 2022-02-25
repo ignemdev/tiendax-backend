@@ -15,7 +15,7 @@ public class ProductoController : ControllerBase
     private readonly IMapper _mapper;
 
     public ProductoController(
-        IProductoServices productoServices, 
+        IProductoServices productoServices,
         IMapper mapper)
     {
         _productoServices = productoServices;
@@ -23,15 +23,16 @@ public class ProductoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ResponseModel<IEnumerable<ProductoMantDetail>>>> GetAllProductos()
+    public async Task<ActionResult<ResponsePaginationModel<IEnumerable<ProductoMantDetail>>>> GetAllProductos([FromQuery] ProductosPaginationParams productosPaginationParams)
     {
-        var response = new ResponseModel<IEnumerable<ProductoMantDetail>>();
+        var response = new ResponsePaginationModel<IEnumerable<ProductoMantDetail>>();
         try
         {
-            var productos = await _productoServices.GetAllProductosWithIncludes();
-            response.Result = _mapper.Map<IEnumerable<ProductoMantDetail>>(productos);
+            var productos = await _productoServices.GetAllProductosWithIncludes(productosPaginationParams);
+            response.SetPagination(productos, productosPaginationParams);
+            response.Data = _mapper.Map<IEnumerable<ProductoMantDetail>>(productos);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -50,9 +51,9 @@ public class ProductoController : ControllerBase
         try
         {
             var producto = await _productoServices.GetProductoById(id);
-            response.Result = _mapper.Map<ProductoMantDetail>(producto);
+            response.Data = _mapper.Map<ProductoMantDetail>(producto);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -72,9 +73,9 @@ public class ProductoController : ControllerBase
         {
             var producto = _mapper.Map<Producto>(productoMantAdd);
             var addedProducto = await _productoServices.AddProducto(producto);
-            response.Result = _mapper.Map<ProductoMantDetail>(addedProducto);
+            response.Data = _mapper.Map<ProductoMantDetail>(addedProducto);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return StatusCode(201, response);
@@ -94,9 +95,9 @@ public class ProductoController : ControllerBase
         {
             var producto = _mapper.Map<Producto>(productoMantUpdate);
             var updatedProducto = await _productoServices.UpdateProducto(producto);
-            response.Result = _mapper.Map<ProductoMantDetail>(updatedProducto);
+            response.Data = _mapper.Map<ProductoMantDetail>(updatedProducto);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -115,9 +116,9 @@ public class ProductoController : ControllerBase
         try
         {
             var producto = await _productoServices.ToggleActivoById(id);
-            response.Result = _mapper.Map<ProductoMantDetail>(producto);
+            response.Data = _mapper.Map<ProductoMantDetail>(producto);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -130,15 +131,15 @@ public class ProductoController : ControllerBase
     }
 
     [HttpPost("{id:int}/categorias")]
-    public async Task<ActionResult<ResponseModel<ProductoMantDetail>>> AddProductoCategorias(int id, [FromBody]IEnumerable<int> categoriasIds)
+    public async Task<ActionResult<ResponseModel<ProductoMantDetail>>> AddProductoCategorias(int id, [FromBody] IEnumerable<int> categoriasIds)
     {
         var response = new ResponseModel<ProductoMantDetail>();
         try
         {
             var producto = await _productoServices.AddProductoCategorias(id, categoriasIds);
-            response.Result = _mapper.Map<ProductoMantDetail>(producto);
+            response.Data = _mapper.Map<ProductoMantDetail>(producto);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);

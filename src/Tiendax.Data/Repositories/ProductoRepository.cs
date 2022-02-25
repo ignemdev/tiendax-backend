@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiendax.Core.Entities;
 using Tiendax.Core.Enumerables;
+using Tiendax.Core.Models;
 using Tiendax.Core.Repositories;
 
 namespace Tiendax.Data.Repositories;
@@ -71,7 +72,7 @@ public class ProductoRepository : Repository<Producto>, IProductoRepository
         _db.Productos.UpdateRange(productos);
     }
 
-    public async Task<IEnumerable<Producto>> GetAllWithActiveCategorias(Expression<Func<Producto, bool>> predicate = null!)
+    public async Task<IEnumerable<Producto>> GetAllWithActiveCategorias(ProductosPaginationParams productosPaginationParams, Expression<Func<Producto, bool>> predicate = null!)
     {
         IQueryable<Producto> query = _db.Productos;
 
@@ -81,6 +82,8 @@ public class ProductoRepository : Repository<Producto>, IProductoRepository
         var productos = await query
             .Include("Marca")
             .Include(p => p.Categorias.Where(c => c.Activo == Convert.ToBoolean((int)Estado.Activo)))
+            .Skip((productosPaginationParams.PageNumber - 1) * productosPaginationParams.PageSize)
+            .Take(productosPaginationParams.PageSize)
             .ToListAsync();
 
         return productos;

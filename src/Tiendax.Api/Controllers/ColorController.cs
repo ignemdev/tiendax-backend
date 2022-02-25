@@ -29,9 +29,9 @@ public class ColorController : ControllerBase
         try
         {
             var colores = await _colorServices.GetAllColores();
-            response.Result = _mapper.Map<IEnumerable<ColorMantDetail>>(colores);
+            response.Data = _mapper.Map<IEnumerable<ColorMantDetail>>(colores);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -50,9 +50,9 @@ public class ColorController : ControllerBase
         try
         {
             var color = await _colorServices.GetColorById(id);
-            response.Result = _mapper.Map<ColorMantDetail>(color);
+            response.Data = _mapper.Map<ColorMantDetail>(color);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -72,9 +72,9 @@ public class ColorController : ControllerBase
         {
             var color = _mapper.Map<Core.Entities.Color>(colorMantAdd);
             var addedColor = await _colorServices.AddColor(color);
-            response.Result = _mapper.Map<ColorMantDetail>(addedColor);
+            response.Data = _mapper.Map<ColorMantDetail>(addedColor);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return StatusCode(201, response);
@@ -94,9 +94,9 @@ public class ColorController : ControllerBase
         {
             var color = _mapper.Map<Core.Entities.Color>(colorMantUpdate);
             var updatedColor = await _colorServices.UpdateColor(color);
-            response.Result = _mapper.Map<ColorMantDetail>(updatedColor);
+            response.Data = _mapper.Map<ColorMantDetail>(updatedColor);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -115,9 +115,9 @@ public class ColorController : ControllerBase
         try
         {
             var color = await _colorServices.ToggleActivoById(id);
-            response.Result = _mapper.Map<ColorMantDetail>(color);
+            response.Data = _mapper.Map<ColorMantDetail>(color);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);

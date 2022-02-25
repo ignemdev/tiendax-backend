@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Tiendax.Core;
 using Tiendax.Core.Entities;
 using Tiendax.Core.Enumerables;
+using Tiendax.Core.Models;
 using Tiendax.Core.Services;
 
 namespace Tiendax.Services;
@@ -33,9 +34,9 @@ public class ProductoServices : IProductoServices
         return addedProducto;
     }
 
-    public async Task<IEnumerable<Producto>> GetAllProductosWithIncludes()
+    public async Task<IEnumerable<Producto>> GetAllProductosWithIncludes(ProductosPaginationParams productosPaginationParams)
     {
-        var productos = await _unitOfWork.Producto.GetAllWithActiveCategorias();
+        var productos = await _unitOfWork.Producto.GetAllWithActiveCategorias(productosPaginationParams);
 
         //mandar categorias, marca, nombre
         //a traves de id en front obtener variantes (id, color, precio)

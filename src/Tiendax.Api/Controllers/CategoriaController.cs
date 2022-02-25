@@ -29,9 +29,9 @@ public class CategoriaController : ControllerBase
         try
         {
             var categorias = await _categoriaServices.GetAllCategorias();
-            response.Result = _mapper.Map<IEnumerable<CategoriaMantDetail>>(categorias);
+            response.Data = _mapper.Map<IEnumerable<CategoriaMantDetail>>(categorias);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -50,9 +50,9 @@ public class CategoriaController : ControllerBase
         try
         {
             var categoria = await _categoriaServices.GetCategoriaById(id);
-            response.Result = _mapper.Map<CategoriaMantDetail>(categoria);
+            response.Data = _mapper.Map<CategoriaMantDetail>(categoria);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -72,9 +72,9 @@ public class CategoriaController : ControllerBase
         {
             var categoria = _mapper.Map<Categoria>(categoriaMantAdd);
             var addedCategoria = await _categoriaServices.AddCategoria(categoria);
-            response.Result = _mapper.Map<CategoriaMantDetail>(addedCategoria);
+            response.Data = _mapper.Map<CategoriaMantDetail>(addedCategoria);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return StatusCode(201, response);
@@ -94,9 +94,9 @@ public class CategoriaController : ControllerBase
         {
             var categoria = _mapper.Map<Categoria>(categoriaMantUpdate);
             var updatedCategoria = await _categoriaServices.UpdateCategoria(categoria);
-            response.Result = _mapper.Map<CategoriaMantDetail>(updatedCategoria);
+            response.Data = _mapper.Map<CategoriaMantDetail>(updatedCategoria);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -115,9 +115,9 @@ public class CategoriaController : ControllerBase
         try
         {
             var categoria = await _categoriaServices.ToggleActivoById(id);
-            response.Result = _mapper.Map<CategoriaMantDetail>(categoria);
+            response.Data = _mapper.Map<CategoriaMantDetail>(categoria);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);

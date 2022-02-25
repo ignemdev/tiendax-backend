@@ -29,9 +29,9 @@ public class MarcaController : ControllerBase
         try
         {
             var marcas = await _marcaServices.GetAllMarcas();
-            response.Result = _mapper.Map<IEnumerable<MarcaMantDetail>>(marcas);
+            response.Data = _mapper.Map<IEnumerable<MarcaMantDetail>>(marcas);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -50,9 +50,9 @@ public class MarcaController : ControllerBase
         try
         {
             var caracteristica = await _marcaServices.GetMarcaById(id);
-            response.Result = _mapper.Map<MarcaMantDetail>(caracteristica);
+            response.Data = _mapper.Map<MarcaMantDetail>(caracteristica);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -72,9 +72,9 @@ public class MarcaController : ControllerBase
         {
             var marca = _mapper.Map<Marca>(marcaMantAdd);
             var addedMarca = await _marcaServices.AddMarca(marca);
-            response.Result = _mapper.Map<MarcaMantDetail>(addedMarca);
+            response.Data = _mapper.Map<MarcaMantDetail>(addedMarca);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return StatusCode(201, response);
@@ -94,9 +94,9 @@ public class MarcaController : ControllerBase
         {
             var marca = _mapper.Map<Marca>(marcaMantUpdate);
             var updatedMarca = await _marcaServices.UpdateMarca(marca);
-            response.Result = _mapper.Map<MarcaMantDetail>(updatedMarca);
+            response.Data = _mapper.Map<MarcaMantDetail>(updatedMarca);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -115,9 +115,9 @@ public class MarcaController : ControllerBase
         try
         {
             var marca = await _marcaServices.ToggleActivoById(id);
-            response.Result = _mapper.Map<MarcaMantDetail>(marca);
+            response.Data = _mapper.Map<MarcaMantDetail>(marca);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);

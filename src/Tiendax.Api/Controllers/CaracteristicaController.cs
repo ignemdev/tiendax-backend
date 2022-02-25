@@ -31,9 +31,9 @@ public class CaracteristicaController : ControllerBase
         try
         {
             var caracteristicas = await _caracteristicaServices.GetAllCaracteristicas();
-            response.Result = _mapper.Map<IEnumerable<CaracteristicaMantDetail>>(caracteristicas);
+            response.Data = _mapper.Map<IEnumerable<CaracteristicaMantDetail>>(caracteristicas);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -52,9 +52,9 @@ public class CaracteristicaController : ControllerBase
         try
         {
             var caracteristica = await _caracteristicaServices.GetCaracteristicaById(id);
-            response.Result = _mapper.Map<CaracteristicaMantDetail>(caracteristica);
+            response.Data = _mapper.Map<CaracteristicaMantDetail>(caracteristica);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -74,9 +74,9 @@ public class CaracteristicaController : ControllerBase
         {
             var caracteristica = _mapper.Map<Caracteristica>(caracteristicaMantAdd);
             var addedCaracteristica = await _caracteristicaServices.AddCaracteristica(caracteristica);
-            response.Result = _mapper.Map<CaracteristicaMantDetail>(addedCaracteristica);
+            response.Data = _mapper.Map<CaracteristicaMantDetail>(addedCaracteristica);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return StatusCode(201, response);
@@ -96,9 +96,9 @@ public class CaracteristicaController : ControllerBase
         {
             var caracteristica = _mapper.Map<Caracteristica>(caracteristicaMantUpdate);
             var updatedCaracteristica = await _caracteristicaServices.UpdateCaracteristica(caracteristica);
-            response.Result = _mapper.Map<CaracteristicaMantDetail>(updatedCaracteristica);
+            response.Data = _mapper.Map<CaracteristicaMantDetail>(updatedCaracteristica);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);
@@ -117,9 +117,9 @@ public class CaracteristicaController : ControllerBase
         try
         {
             var caracteristica = await _caracteristicaServices.ToggleActivoById(id);
-            response.Result = _mapper.Map<CaracteristicaMantDetail>(caracteristica);
+            response.Data = _mapper.Map<CaracteristicaMantDetail>(caracteristica);
 
-            if (response.Result == null)
+            if (response.Data == null)
                 return NotFound();
 
             return Ok(response);

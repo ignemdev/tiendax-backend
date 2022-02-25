@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiendax.Core.Entities;
+using Tiendax.Core.Models;
 
 namespace Tiendax.Core.Services;
 
 public interface IProductoServices
 {
-    Task<IEnumerable<Producto>> GetAllProductosWithIncludes();
+    Task<IEnumerable<Producto>> GetAllProductosWithIncludes(ProductosPaginationParams productosPaginationParams);
     Task<Producto> AddProducto(Producto producto);
     Task<Producto> UpdateProducto(Producto producto);
     Task<Producto> GetProductoById(int productoId);
