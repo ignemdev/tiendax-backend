@@ -1,3 +1,6 @@
+CREATE DATABASE [Tiendax]
+GO
+
 USE [Tiendax]
 GO
 
