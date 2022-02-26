@@ -72,7 +72,7 @@ public class ProductoRepository : Repository<Producto>, IProductoRepository
         _db.Productos.UpdateRange(productos);
     }
 
-    public async Task<IEnumerable<Producto>> GetAllWithActiveCategorias(ProductosPaginationParams productosPaginationParams, Expression<Func<Producto, bool>> predicate = null!)
+    public async Task<IEnumerable<Producto>> GetAllWithActiveCategorias(Expression<Func<Producto, bool>> predicate = null!)
     {
         IQueryable<Producto> query = _db.Productos;
 
@@ -82,11 +82,30 @@ public class ProductoRepository : Repository<Producto>, IProductoRepository
         var productos = await query
             .Include("Marca")
             .Include(p => p.Categorias.Where(c => c.Activo == Convert.ToBoolean((int)Estado.Activo)))
-            .Skip((productosPaginationParams.PageNumber - 1) * productosPaginationParams.PageSize)
-            .Take(productosPaginationParams.PageSize)
             .ToListAsync();
 
         return productos;
+    }
+
+    public async Task<ResponsePaginationModel<IEnumerable<Producto>>> GetAllPagedWithActiveCategorias(int limit, int page, CancellationToken cancellationToken, Expression<Func<Producto, bool>> predicate = null!)
+    {
+        IQueryable<Producto> query = _db.Productos;
+
+        if (predicate != null)
+            query = query.Where(predicate);
+
+        var pagedProductos = await query
+            .Include("Marca").Include(p => p.Categorias.Where(c => c.Activo == Convert.ToBoolean((int)Estado.Activo)))
+            .OrderByDescending(p => p.Creado)
+            .PaginateAsync(page, limit, cancellationToken);
+
+        return new ResponsePaginationModel<IEnumerable<Producto>>
+        {
+            CurrentPage = pagedProductos.CurrentPage,
+            TotalPages = pagedProductos.TotalPages,
+            TotalCount = pagedProductos.TotalItems,
+            Data = pagedProductos.Items.ToList()
+        };
     }
 
     public async Task<Producto> GetFirstOrDefaultWithActiveCategorias(Expression<Func<Producto, bool>> predicate = null!)

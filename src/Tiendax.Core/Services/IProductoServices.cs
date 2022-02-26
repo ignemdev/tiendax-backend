@@ -10,7 +10,8 @@ namespace Tiendax.Core.Services;
 
 public interface IProductoServices
 {
-    Task<IEnumerable<Producto>> GetAllProductosWithIncludes(ProductosPaginationParams productosPaginationParams);
+    Task<IEnumerable<Producto>> GetAllProductosWithIncludes();
+    Task<ResponsePaginationModel<IEnumerable<Producto>>> GetAllProductosPagedWithIncludes(int limit, int page, CancellationToken cancellationToken);
     Task<Producto> AddProducto(Producto producto);
     Task<Producto> UpdateProducto(Producto producto);
     Task<Producto> GetProductoById(int productoId);

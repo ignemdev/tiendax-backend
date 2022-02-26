@@ -7,6 +7,7 @@ using Tiendax.Core.DTOs.Marcas;
 using Tiendax.Core.DTOs.Productos;
 using Tiendax.Core.DTOs.Variantes;
 using Tiendax.Core.Entities;
+using Tiendax.Core.Models;
 
 namespace Tiendax.Api.Mappings;
 
@@ -42,5 +43,7 @@ public class MappingProfile : Profile
         CreateMap<VarianteMantAdd, Variante>();
         CreateMap<VarianteMantUpdate, Variante>();
         CreateMap<Variante, VarianteMantDetail>();
+
+        CreateMap<ResponsePaginationModel<IEnumerable<Producto>>, ResponsePaginationModel<IEnumerable<ProductoMantDetail>>>();
     }
 }

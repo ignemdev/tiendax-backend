@@ -23,14 +23,14 @@ public class ProductoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ResponsePaginationModel<IEnumerable<ProductoMantDetail>>>> GetAllProductos([FromQuery] ProductosPaginationParams productosPaginationParams)
+    public async Task<ActionResult<ResponsePaginationModel<IEnumerable<ProductoMantDetail>>>> GetAllProductos([FromQuery] ProductosPaginationParams productosPaginationParams, CancellationToken cancellationToken)
+
     {
         var response = new ResponsePaginationModel<IEnumerable<ProductoMantDetail>>();
         try
         {
-            var productos = await _productoServices.GetAllProductosWithIncludes(productosPaginationParams);
-            response.SetPagination(productos, productosPaginationParams);
-            response.Data = _mapper.Map<IEnumerable<ProductoMantDetail>>(productos);
+            var pagedProductos = await _productoServices.GetAllProductosPagedWithIncludes(productosPaginationParams.PageSize, productosPaginationParams.PageNumber, cancellationToken);
+            response = _mapper.Map<ResponsePaginationModel<IEnumerable<ProductoMantDetail>>>(pagedProductos);
 
             if (response.Data == null)
                 return NotFound();

@@ -17,6 +17,7 @@ public class ProductoServices : IProductoServices
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IConfiguration _configuration;
+
     public ProductoServices(
         IConfiguration configuration,
         IUnitOfWork unitOfWork)
@@ -39,14 +40,23 @@ public class ProductoServices : IProductoServices
         return addedProducto;
     }
 
-    public async Task<IEnumerable<Producto>> GetAllProductosWithIncludes(ProductosPaginationParams productosPaginationParams)
+    public async Task<IEnumerable<Producto>> GetAllProductosWithIncludes()
     {
-        var productos = await _unitOfWork.Producto.GetAllWithActiveCategorias(productosPaginationParams);
+        var productos = await _unitOfWork.Producto.GetAllWithActiveCategorias();
 
         //mandar categorias, marca, nombre
         //a traves de id en front obtener variantes (id, color, precio)
 
         return productos;
+    }
+
+    public async Task<ResponsePaginationModel<IEnumerable<Producto>>> GetAllProductosPagedWithIncludes(int limit, int page, CancellationToken cancellationToken)
+    {
+        var pagedProductos = await _unitOfWork.Producto.GetAllPagedWithActiveCategorias(limit, page, cancellationToken);
+
+        _unitOfWork.Dispose();
+
+        return pagedProductos;
     }
 
     public async Task<Producto> GetProductoById(int productoId)
