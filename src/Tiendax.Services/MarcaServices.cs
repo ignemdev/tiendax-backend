@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,10 @@ public class MarcaServices : IMarcaServices
 
     public async Task<Marca> AddMarca(Marca marca)
     {
+        var errors = new List<ValidationResult>();
+        if (!Validator.TryValidateObject(marca, new ValidationContext(marca), errors, true))
+            throw new InvalidOperationException(string.Join(Environment.NewLine, errors.Select(x => x.ErrorMessage)));
+
         if (marca == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 

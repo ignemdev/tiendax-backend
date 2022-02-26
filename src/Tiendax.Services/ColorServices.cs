@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,10 @@ public class ColorServices : IColorServices
 
     public async Task<Color> AddColor(Color color)
     {
+        var errors = new List<ValidationResult>();
+        if (!Validator.TryValidateObject(color, new ValidationContext(color), errors, true))
+            throw new InvalidOperationException(string.Join(Environment.NewLine, errors.Select(x => x.ErrorMessage)));
+
         if (color == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 

@@ -20,7 +20,6 @@ public class Producto : BaseEntity
     [MinLength(1)]
     [Required(AllowEmptyStrings = false)]
     public string Descripcion { get; set; } = null!;
-
     public int MarcaId { get; set; }
 
     public Marca Marca { get; set; } = null!;

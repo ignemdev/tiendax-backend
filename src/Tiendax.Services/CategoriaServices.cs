@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,10 @@ public class CategoriaServices : ICategoriaServices
     }
     public async Task<Categoria> AddCategoria(Categoria categoria)
     {
+        var errors = new List<ValidationResult>();
+        if (!Validator.TryValidateObject(categoria, new ValidationContext(categoria), errors, true))
+            throw new InvalidOperationException(string.Join(Environment.NewLine, errors.Select(x => x.ErrorMessage)));
+
         if (categoria == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 

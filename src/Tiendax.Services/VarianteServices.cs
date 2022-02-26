@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,10 @@ public class VarianteServices : IVarianteServices
 
     public async Task<Variante> AddVariante(Variante variante)
     {
+        var errors = new List<ValidationResult>();
+        if (!Validator.TryValidateObject(variante, new ValidationContext(variante), errors, true))
+            throw new InvalidOperationException(string.Join(Environment.NewLine, errors.Select(x => x.ErrorMessage)));
+
         if (variante == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 

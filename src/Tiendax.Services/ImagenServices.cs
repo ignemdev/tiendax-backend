@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,10 @@ public class ImagenServices : IImagenServices
 
     public async Task<Imagen> AddImagen(Imagen imagen)
     {
+        var errors = new List<ValidationResult>();
+        if (!Validator.TryValidateObject(imagen, new ValidationContext(imagen), errors, true))
+            throw new InvalidOperationException(string.Join(Environment.NewLine, errors.Select(x => x.ErrorMessage)));
+
         if (imagen == null)
             throw new ArgumentNullException(_configuration["Mensajes:E001"]);
 
