@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Tiendax.Core.DTOs.Productos;
+using Tiendax.Core.DTOs.Variantes;
 using Tiendax.Core.Entities;
 using Tiendax.Core.Models;
 using Tiendax.Core.Services;
@@ -150,4 +151,26 @@ public class ProductoController : ControllerBase
             return BadRequest(response);
         }
     }
+
+    [HttpGet("{id:int}/variantes")]
+    public async Task<ActionResult<ResponseModel<IEnumerable<VarianteMantDetail>>>> GetProductoActiveVariantesById(int id)
+    {
+        var response = new ResponseModel<IEnumerable<VarianteMantDetail>>();
+        try
+        {
+            var producto = await _productoServices.GetProductoActiveVariantesById(id);
+            response.Data = _mapper.Map<IEnumerable<VarianteMantDetail>>(producto);
+
+            if (response.Data == null)
+                return NotFound();
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            response.SetErrorMessage((ex.InnerException ?? ex).Message);
+            return BadRequest(response);
+        }
+    }
+
 }

@@ -122,4 +122,14 @@ public class ProductoRepository : Repository<Producto>, IProductoRepository
 
         return dbProducto!;
     }
+
+   public async Task<IEnumerable<Variante>> GetActiveVariantesById(int id)
+    {
+        var activeVariantes = await _db.Variantes
+               .Include("Color")
+               .Where(v => v.ProductoId == id && v.Activo == Convert.ToBoolean((int)Estado.Activo))
+               .ToListAsync();
+
+        return activeVariantes;
+    }
 }

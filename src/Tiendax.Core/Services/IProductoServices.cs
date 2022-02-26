@@ -17,4 +17,5 @@ public interface IProductoServices
     Task<Producto> GetProductoById(int productoId);
     Task<Producto> ToggleActivoById(int productoId);
     Task<Producto> AddProductoCategorias(int productoId, IEnumerable<int> categoriasIds);
+    Task<IEnumerable<Variante>> GetProductoActiveVariantesById(int productoId);
 }

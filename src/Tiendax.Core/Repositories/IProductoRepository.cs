@@ -17,5 +17,6 @@ public interface IProductoRepository : IRepository<Producto>
     Task<IEnumerable<Producto>> GetAllWithActiveCategorias(Expression<Func<Producto, bool>> predicate = null!);
     Task<ResponsePaginationModel<IEnumerable<Producto>>> GetAllPagedWithActiveCategorias(int limit, int page, CancellationToken cancellationToken, Expression<Func<Producto, bool>> predicate = null!);
     Task<Producto> GetFirstOrDefaultWithActiveCategorias(Expression<Func<Producto, bool>> predicate = null!);
+    Task<IEnumerable<Variante>> GetActiveVariantesById(int id);
     void UpdateRange(IEnumerable<Producto> productos);
 }

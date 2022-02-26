@@ -128,4 +128,14 @@ public class ProductoServices : IProductoServices
 
         return productoWithCategorias;
     }
+
+    public async Task<IEnumerable<Variante>> GetProductoActiveVariantesById(int productoId)
+    {
+        if (productoId == 0)
+            throw new ArgumentNullException(_configuration["Mensajes:E002"]);
+
+        var activeVariantes = await _unitOfWork.Producto.GetActiveVariantesById(productoId);
+
+        return activeVariantes;
+    }
 }
