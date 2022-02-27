@@ -26,7 +26,7 @@ public class ColorServices : IColorServices
 
     public async Task<IEnumerable<Color>> GetAllColores()
     {
-        var colors = await _unitOfWork.Color.GetAllAsync();
+        var colors = await _unitOfWork.Color.GetAllAsync(c => c.Activo == Convert.ToBoolean((int)Estado.Activo));
         return colors;
     }
 

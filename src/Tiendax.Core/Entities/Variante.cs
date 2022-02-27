@@ -16,7 +16,9 @@ namespace Tiendax.Core.Entities;
     [MinLength(8)]
     [Required(AllowEmptyStrings = false)]
     public string Sku { get; set; } = null!;
+    [Range(1, 10000000)]
     public int Stock { get; set; }
+    [Range(1, 10000000)]
     public double Precio { get; set; }
     public int? ColorId { get; set; }
 

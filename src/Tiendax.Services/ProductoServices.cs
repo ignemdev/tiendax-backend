@@ -44,15 +44,13 @@ public class ProductoServices : IProductoServices
     {
         var productos = await _unitOfWork.Producto.GetAllWithActiveCategorias();
 
-        //mandar categorias, marca, nombre
-        //a traves de id en front obtener variantes (id, color, precio)
-
         return productos;
     }
 
     public async Task<ResponsePaginationModel<IEnumerable<Producto>>> GetAllProductosPagedWithIncludes(int limit, int page, CancellationToken cancellationToken)
     {
-        var pagedProductos = await _unitOfWork.Producto.GetAllPagedWithActiveCategorias(limit, page, cancellationToken);
+        var pagedProductos = await _unitOfWork.Producto
+            .GetAllPagedWithActiveCategorias(limit, page, cancellationToken, p => p.Activo == Convert.ToBoolean((int)Estado.Activo));
 
         _unitOfWork.Dispose();
 
@@ -69,7 +67,7 @@ public class ProductoServices : IProductoServices
 
         if (dbProducto == null)
             throw new NullReferenceException(_configuration["Mensajes:E003"]);
-        //a traves de id en front obtener variantes (id, color, precio, fotos), caracteristicas
+
         return dbProducto;
     }
 

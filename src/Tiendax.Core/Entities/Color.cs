@@ -10,7 +10,8 @@ public class Color : BaseEntity
     [Required(AllowEmptyStrings = false)]
     public string Descripcion { get; set; } = null!;
 
-    [MinLength(1)]
+    [MinLength(6)]
+    [MaxLength(6)]
     [Required(AllowEmptyStrings = false)]
     public string Hex { get; set; } = null!;
 }
