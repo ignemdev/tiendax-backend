@@ -26,7 +26,7 @@ public class CaracteristicaServices : ICaracteristicaServices
 
     public async Task<IEnumerable<Caracteristica>> GetAllCaracteristicas()
     {
-        var caracteristicas = await _unitOfWork.Caracteristica.GetAllAsync();
+        var caracteristicas = await _unitOfWork.Caracteristica.GetAllAsync(orderBy: x => x.OrderByDescending(x => x.Creado));
         return caracteristicas;
     }
 

@@ -82,6 +82,7 @@ public class ProductoRepository : Repository<Producto>, IProductoRepository
         var productos = await query
             .Include("Marca")
             .Include(p => p.Categorias.Where(c => c.Activo == Convert.ToBoolean((int)Estado.Activo)))
+            .OrderByDescending(c => c.Creado)
             .ToListAsync();
 
         return productos;
@@ -128,6 +129,7 @@ public class ProductoRepository : Repository<Producto>, IProductoRepository
         var activeVariantes = await _db.Variantes
                .Include("Color")
                .Where(v => v.ProductoId == id && v.Activo == Convert.ToBoolean((int)Estado.Activo))
+               .OrderByDescending(c => c.Creado)
                .ToListAsync();
 
         return activeVariantes;

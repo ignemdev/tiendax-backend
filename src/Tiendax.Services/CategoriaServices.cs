@@ -40,7 +40,7 @@ public class CategoriaServices : ICategoriaServices
 
     public async Task<IEnumerable<Categoria>> GetAllCategorias()
     {
-        var categorias = await _unitOfWork.Categoria.GetAllAsync();
+        var categorias = await _unitOfWork.Categoria.GetAllAsync(orderBy: x => x.OrderByDescending(x => x.Creado));
         return categorias;
     }
 

@@ -44,7 +44,7 @@ public class MarcaServices : IMarcaServices
 
     public async Task<IEnumerable<Marca>> GetAllMarcas()
     {
-        var marcas = await _unitOfWork.Marca.GetAllAsync(m => m.Activo == Convert.ToBoolean((int)Estado.Activo));
+        var marcas = await _unitOfWork.Marca.GetAllAsync(m => m.Activo == Convert.ToBoolean((int)Estado.Activo), orderBy: x => x.OrderByDescending(x => x.Creado));
         return marcas;
     }
 
